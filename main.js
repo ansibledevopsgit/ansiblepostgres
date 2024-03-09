@@ -13,7 +13,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const hostname = '109.122.224.141';
+const hostname = 'localhost';
 const port = 9000;
 
 const pool =   new Pool({ 

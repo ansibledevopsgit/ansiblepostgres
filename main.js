@@ -43,7 +43,7 @@ app.get("/",(req,res)=>{
 });
 
 app.get("/Create",(req,res)=>{
-    commentservice.Connection();
+    logservice.CreateTable();
     res.send("Create  PostgreSQL");
 });
 

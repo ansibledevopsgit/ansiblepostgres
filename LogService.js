@@ -12,8 +12,7 @@
 
     function Connection( _pool) {
         pool =_pool;
-       // client.connect();
-      //  CreateTable();
+        
     }
 
     async function  CreateTable(){

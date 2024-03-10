@@ -13,6 +13,6 @@ RUN npm config set https-proxy http://fodev.org:8118
 RUN npm install
  
 COPY . ./
-EXPOSE 9000
+EXPOSE 8000
  
 CMD ["node", "main.js"]

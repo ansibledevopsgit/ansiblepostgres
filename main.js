@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //const hostname = 'localhost';
-const port = 9000;
+const port = 8000;
 
 const pool =   new Pool({ 
     database:"DBLog",

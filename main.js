@@ -7,30 +7,21 @@ const  logservice  = require('./LogService');
 const {  ILog  } = require("./ILog");
  
 const bodyParser = require('body-parser');
- 
 const app = express();
 //const hostname = 'localhost';
 const port = 8000;
 
-app.use(function (req, res, next) {
+ //CORS middleware
+var corsMiddleware = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); 
+   // res.header('Access-Control-Allow-Origin', 'localhost');//replace localhost with actual host
+    res.header('Access-Control-Allow-Methods', 'OPTIONS, GET, PUT, PATCH, POST, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With, Authorization');
 
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', '*');
-
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
-
-    // Pass to next layer of middleware
     next();
-});
-  
+}
+
+app.use(corsMiddleware);
  
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -40,7 +31,7 @@ app.use(bodyParser.json());
 
 const pool =   new Pool({ 
     database:"DBLog",
-    host:"localhost",
+    host:"postgresdb",
     port:5432,
     user: "postgres",
     password: "1234"
@@ -97,11 +88,17 @@ app.get("/GetAll", async (req,res)=>{
   
 });
 
-app.get("/Insert",async(req,res)=>{
+app.post("/Insert",async(req,res)=>{
+
+    let userID = req.body.userID;
 
     const date  = new Date();  
     const Log = new ILog();
-    Log.log_userid=10;Log.log_action="Insert";Log.log_controller="Log";Log.log_datetime= date.toString(); Log.log_message="mamad insert again again again again a row of log.";
+    Log.log_userid=userID;
+    Log.log_action="Insert";
+    Log.log_controller="Log";
+    Log.log_datetime= date.toString();
+     Log.log_message="mamad insert again again again again a row of log.";
 
    await logservice.Insert(Log).then((state) =>{
         if(state){
